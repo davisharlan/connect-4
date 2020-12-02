@@ -1,0 +1,28 @@
+.cell-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 5rem;
+  width: 5rem;
+}
+
+.cell-circle-white {
+  height: 4rem;
+  width: 4rem;
+  background: white;
+  border-radius: 50%
+}
+
+.cell-circle-red {
+  height: 4rem;
+  width: 4rem;
+  background: red;
+  border-radius: 50%
+}
+
+.cell-circle-black {
+  height: 4rem;
+  width: 4rem;
+  background: black;
+  border-radius: 50%
+}
