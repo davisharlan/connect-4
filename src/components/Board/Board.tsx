@@ -1,4 +1,4 @@
-import Cell from "../Cell/Cell";
+import Cell from "./Cell/Cell";
 import "./Board.css";
 
 const Board = () => {
