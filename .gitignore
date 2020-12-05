@@ -109,3 +109,7 @@ dist
 
 # production
 /build
+
+# IDE Files
+.idea
+.vscode
