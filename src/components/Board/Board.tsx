@@ -1,12 +1,9 @@
-import Cell from "./Cell/Cell";
+import Column from "./Column/Column";
 import "./Board.css";
 
 const Board = () => {
-  const column = [...Array(6).keys()].map((value) => <Cell></Cell>);
   const board = [...Array(7).keys()].map((value) => (
-    <div id={value.toString()} className="column">
-      {column}
-    </div>
+    <Column></Column>
   ));
   return <div className="board">{board}</div>;
 };
