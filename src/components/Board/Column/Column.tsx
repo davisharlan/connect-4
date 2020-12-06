@@ -4,7 +4,6 @@ import "./Column.css";
 
 const fillUnoccupiedCellFromBottom = (arr: number[]) => {
   const level = arr.indexOf(0)
-  debugger
   return [...arr.slice(0, level), (arr[level] + 1) % 3, ...arr.slice(level + 1, arr.length)]
 }
 
