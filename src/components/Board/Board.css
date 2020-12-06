@@ -3,13 +3,3 @@
   display: flex;
   width: 35rem;
 }
-
-.column {
-  display: flex;
-  flex-direction: column;
-}
-
-.cell {
-  height: 5rem;
-  width: 5rem;
-}
