@@ -1,18 +1,18 @@
 import "./Cell.css";
 
-const Cell = ({ cellState }: { cellState: number }) => {
-  const getCellCircle = () => {
-    switch (cellState) {
-      case 1:
-        return <div className="cell-circle-red"></div>;
-      case 2:
-        return <div className="cell-circle-black"></div>;
-      default:
-        return <div className="cell-circle-white"></div>;
-    }
-  };
+const getCellCircle = (cellState: number) => {
+  switch (cellState) {
+    case 1:
+      return <div className="cell-circle-red"></div>;
+    case 2:
+      return <div className="cell-circle-black"></div>;
+    default:
+      return <div className="cell-circle-white"></div>;
+  }
+};
 
-  return <div className="cell-container">{getCellCircle()}</div>;
+const Cell = ({ cellState }: { cellState: number }) => {
+  return <div className="cell-container">{getCellCircle(cellState)}</div>;
 };
 
 export default Cell;
