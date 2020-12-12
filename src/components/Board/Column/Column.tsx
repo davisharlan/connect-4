@@ -15,11 +15,13 @@ const Column = ({
   setTurn,
   columnState,
   setColumnState,
+  find4
 }: {
   turn: number;
   setTurn: any;
   columnState: number[];
   setColumnState: any;
+  find4: any;
 }) => {
   const column = [...Array(7).keys()]
     .reverse()
@@ -31,6 +33,7 @@ const Column = ({
       onClick={() => {
         setColumnState(fillUnoccupiedCellFromBottom(columnState, turn));
         setTurn((turn + 1) % 2);
+        find4()
       }}
     >
       {column}

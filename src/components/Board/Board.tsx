@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Column from "./Column/Column";
 import "./Board.css";
+import { BindingOrAssignmentElement } from "typescript";
 
 const setColumnState = (setBoardState: any, index: number, boardState: any) => {
   const locBoard = [...boardState]
@@ -15,28 +16,32 @@ const setColumnState = (setBoardState: any, index: number, boardState: any) => {
 }
 
 const find4 = (boardState: any) => {
-  let i = 0;
-  let j = 0;
-  for(i = 0; i < 7; i++){
-    for(j = 0; j < 7; j++){
-      if(boardState[i][j] !== 0){
-        if(boardState[i + 1][j] === boardState[i][j]){
-          if(find4helper(boardState, [i + 1, j], [1, 0], 1)){
-            return true
-          }
-        } else if(boardState[i][j + 1] === boardState[i][j]){
-          if(find4helper(boardState, [i, j + 1], [0, 1], 1)){
-            return true
-          }
-        }else if(boardState[i + 1][j + 1] === boardState[i][j]){
-          if(find4helper(boardState, [i + 1, j + 1], [1, 1],  1)){
-            return true
+  return(
+    () => {
+      let i = 0;
+      let j = 0;
+      for(i = 0; i < 7; i++){
+        for(j = 0; j < 7; j++){
+          if(boardState[i][j] !== 0){
+            if(boardState[i + 1][j] === boardState[i][j]){
+              if(find4helper(boardState, [i + 1, j], [1, 0], 1)){
+                return true
+              }
+            }if(boardState[i][j + 1] === boardState[i][j]){
+              if(find4helper(boardState, [i, j + 1], [0, 1], 1)){
+                return true
+              }
+            }if(boardState[i + 1][j + 1] === boardState[i][j]){
+              if(find4helper(boardState, [i + 1, j + 1], [1, 1],  1)){
+                return true
+              }
+            }
           }
         }
       }
-    }
-    return false
-  }
+      return false
+    } 
+  )
 }
 
 function find4helper(boardState: any, location: number[], direction: number[], count: number): boolean {
@@ -62,9 +67,10 @@ const Board = () => {
       setTurn={setTurn}
       columnState={boardState[value]}
       setColumnState={setColumnState(setBoardState, value, boardState)}
+      find4={find4(boardState)}
     ></Column>
   ))
-  return <div className="board" onClick={() => find4(boardState) }>{board}</div>;
+  return <div className="board">{board}</div>;
 };
 
 export default Board;
