@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Cell from "../Cell/Cell";
 import "./Column.css";
 
@@ -22,8 +21,6 @@ const Column = ({
   columnState: number[];
   setColumnState: any;
 }) => {
-  //const [columnState, setColumnState] = useState([0, 0, 0, 0, 0, 0]);
-  debugger
   const column = [...Array(7).keys()]
     .reverse()
     .map((value) => <Cell cellState={columnState[value]}></Cell>);
