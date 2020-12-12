@@ -1,16 +1,14 @@
 import { useState } from "react";
 import Column from "./Column/Column";
 import "./Board.css";
-import { BindingOrAssignmentElement } from "typescript";
 
 const setColumnState = (setBoardState: any, index: number, boardState: any) => {
-  const locBoard = [...boardState]
   return(
     (column: number[]) => {    
     setBoardState([
-      ...locBoard.slice(0, index),
+      ...boardState.slice(0, index),
       column,
-      ...locBoard.slice(index + 1, boardState.length)])
+      ...boardState.slice(index + 1, boardState.length)])
     }    
   )  
 }
@@ -40,7 +38,7 @@ const find4 = (boardState: any) => {
         }
       }
       return false
-    } 
+    }
   )
 }
 
@@ -62,7 +60,7 @@ const Board = () => {
   const [boardState, setBoardState] = useState<number[][]>(Array(7).fill(0).map(x => Array(7).fill(0)))
 
   const board = [...Array(7).keys()].map((value) => (
-    <Column
+    <Column 
       turn={turn}
       setTurn={setTurn}
       columnState={boardState[value]}
