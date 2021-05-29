@@ -1,39 +1,26 @@
 import Cell from "../Cell/Cell";
 import "./Column.css";
 
-const fillUnoccupiedCellFromBottom = (arr: number[], turn: number) => {
-  const level = arr.indexOf(0);
-  return [
-    ...arr.slice(0, level),
-    turn + 1,
-    ...arr.slice(level + 1, arr.length),
-  ];
-};
-
 const Column = ({
-  turn,
-  setTurn,
+  columnIndex,
   columnState,
-  setColumnState,
-  find4
+  handleColumnClick,
 }: {
-  turn: number;
-  setTurn: any;
+  columnIndex: number;
   columnState: number[];
-  setColumnState: any;
-  find4: any;
+  handleColumnClick: (arg0: number) => void;
 }) => {
-  const column = [...Array(7).keys()]
+  const column = [...Array(6).keys()]
     .reverse()
-    .map((value) => <Cell cellState={columnState[value]}></Cell>);
+    .map((value, index) => <Cell cellState={columnState[value]} key={index}></Cell>);
 
+  const isColumnFull = () => columnState.find(elem => elem === 0) === undefined 
+  
   return (
     <div
       className="column"
-      onClick={() => {
-        setColumnState(fillUnoccupiedCellFromBottom(columnState, turn));
-        setTurn((turn + 1) % 2);
-        find4()
+      onClick={isColumnFull() ? () => {} : () => {
+        handleColumnClick(columnIndex);
       }}
     >
       {column}

@@ -2,73 +2,67 @@ import { useState } from "react";
 import Column from "./Column/Column";
 import "./Board.css";
 
-const setColumnState = (setBoardState: any, index: number, boardState: any) => {
-  return(
-    (column: number[]) => {    
-    setBoardState([
-      ...boardState.slice(0, index),
-      column,
-      ...boardState.slice(index + 1, boardState.length)])
-    }    
-  )  
-}
-
-const find4 = (boardState: any) => {
-  return(
-    () => {
-      let i = 0;
-      let j = 0;
-      for(i = 0; i < 7; i++){
-        for(j = 0; j < 7; j++){
-          if(boardState[i][j] !== 0){
-            if(boardState[i + 1][j] === boardState[i][j]){
-              if(find4helper(boardState, [i + 1, j], [1, 0], 1)){
-                return true
-              }
-            }if(boardState[i][j + 1] === boardState[i][j]){
-              if(find4helper(boardState, [i, j + 1], [0, 1], 1)){
-                return true
-              }
-            }if(boardState[i + 1][j + 1] === boardState[i][j]){
-              if(find4helper(boardState, [i + 1, j + 1], [1, 1],  1)){
-                return true
-              }
-            }
-          }
-        }
-      }
-      return false
-    }
-  )
-}
-
-function find4helper(boardState: any, location: number[], direction: number[], count: number): boolean {
-  if(count === 3){
-    debugger
-    return true
-  }
-  if(boardState[location[0]][location[1]] === boardState[location[0] + direction[0]][location[1] + direction[1]]){
-   return find4helper(boardState, [location[0] + direction[0], location[1] + direction[1]], direction, count + 1)
-  }
-  else{
-    return false
-  }
-}
-
 const Board = () => {
-  const [turn, setTurn] = useState(0);
-  const [boardState, setBoardState] = useState<number[][]>(Array(7).fill(0).map(x => Array(7).fill(0)))
+  const [turn, setTurn] = useState(1);
+  const [boardState, setBoardState] = useState<number[][]>(
+    Array(7)
+      .fill(0)
+      .map(() => Array(6).fill(0))
+  );
 
-  const board = [...Array(7).keys()].map((value) => (
-    <Column 
-      turn={turn}
-      setTurn={setTurn}
-      columnState={boardState[value]}
-      setColumnState={setColumnState(setBoardState, value, boardState)}
-      find4={find4(boardState)}
-    ></Column>
-  ))
-  return <div className="board">{board}</div>;
+  // TODO: I need to refactor this crap
+  const handleColumnClick = async (columnIndex: number) => {
+    const applyMoveRes = await fetch("http://localhost:8081/applyMove", {
+      method: "POST",
+      body: JSON.stringify({
+        move: columnIndex,
+        boardState: { board: boardState, turn },
+      }),
+      headers: {
+        Accept: "application/json",
+      },
+    }).then((res) => res.json());
+    setBoardState(applyMoveRes.board);
+    setTurn(applyMoveRes.turn);
+
+    await new Promise((res) => setTimeout(res, 500));
+
+    const res = await fetch("http://localhost:8081/random", {
+      method: "POST",
+      body: JSON.stringify({
+        board: applyMoveRes.board,
+        turn: applyMoveRes.turn,
+      }),
+      headers: {
+        Accept: "application/json",
+      },
+    }).then((res) => res.json());
+    setBoardState(res.board);
+    setTurn(res.turn);
+
+    if (res.winner) {
+      // TODO: Add modal
+      console.log(`Player ${res.winner} wins!`);
+      setBoardState(
+        Array(7)
+          .fill(0)
+          .map(() => Array(6).fill(0))
+      );
+    }
+  };
+
+  return (
+    <div className="board">
+      {[...Array(7).keys()].map((value) => (
+        <Column
+          columnIndex={value}
+          key={value}
+          columnState={boardState[value]}
+          handleColumnClick={handleColumnClick}
+        ></Column>
+      ))}
+    </div>
+  );
 };
 
 export default Board;
