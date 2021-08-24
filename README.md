@@ -1,6 +1,14 @@
-# Getting Started with Create React App
+# connect-4
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Goal
+
+This repository is to create a variety of mediocre AIs that players can play against.
+
+Inspiration came from [this great video](https://www.youtube.com/watch?v=DpXy041BIlA) about mediocre chess AIs.
+
+## Backend Server
+
+[This repo](https://github.com/davisharlan/connect-4-backend) contains a Scala http4s server that this client queries.
 
 ## Available Scripts
 
